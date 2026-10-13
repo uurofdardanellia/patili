@@ -1,0 +1,29 @@
+PATİLİ SAĞLIK - iPHONE KURULUMU
+
+Bu klasördeki dosyaları ücretsiz bir web adresine bir kez koyacaksınız.
+Sonra iPhone'da Safari ile açıp ana ekrana ekleyeceksiniz.
+İlk açılıştan sonra uygulama internetsiz çalışır. Kayıtlarınız yalnızca telefonda saklanır;
+bu dosyalarda kişisel veri yoktur.
+
+A) BİLGİSAYARDA (yaklaşık 5 dakika, bir kez)
+1. github.com adresinde ücretsiz hesap açın (varsa giriş yapın).
+2. Sağ üstteki "+" > "New repository".
+   Repository name: patili   |   "Public" seçili olsun   |   "Create repository".
+3. Açılan sayfada "uploading an existing file" bağlantısına tıklayın.
+4. Bu klasördeki TÜM dosyaları (index.html, sw.js, manifest.webmanifest ve png'ler)
+   sayfaya sürükleyip bırakın. Altta "Commit changes" düğmesine basın.
+5. Üstte "Settings" > soldaki menüden "Pages".
+   "Branch" altında "main" ve "/ (root)" seçip "Save".
+6. 1-2 dakika bekleyin. Adresiniz şöyle olur:
+   https://KULLANICI-ADINIZ.github.io/patili/
+
+B) iPHONE'DA
+1. Bu adresi SAFARİ ile açın (Chrome değil).
+2. Alttaki Paylaş düğmesine (kare ve yukarı ok) dokunun.
+3. "Ana Ekrana Ekle" > "Ekle".
+4. Artık ana ekrandaki Patili simgesinden açın. Kayıtlarınızı hep bu simgeden girin;
+   Safari'deki sayfa ile ana ekran uygulamasının kayıtları ayrıdır.
+
+İPUÇLARI
+- Ayda bir ⚙︎ > "Yedek al" ile yedek alın (Dosyalar uygulamasına kaydedilir).
+- Uygulamayı ana ekrandan silerseniz kayıtlar da silinir; önce yedek alın.

@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e6b63">
+<title>Patili Sağlık</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Patili">
+<style>
+:root{
+  color-scheme:light dark;
+  --bg:#eef2ef;--bg2:#e2e8e4;--card:#fbfcfb;--ink:#17211e;--muted:#5f6b67;--line:#d8e0dc;
+  --accent:#0e6b63;--accent-ink:#fff;--soft:#dcece8;--sun:#f2c230;
+  --ok:#23845a;--ok-bg:#dff1e7;--warn:#b26f0a;--warn-bg:#fbefd6;--bad:#c23b3b;--bad-bg:#fae3e1;--on:#fff;
+  --shadow:0 1px 1px rgb(20 40 35/.05),0 10px 30px -18px rgb(20 40 35/.35);
+  --round:"SF Pro Rounded",ui-rounded,"Nunito","Varela Round","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;
+  --text:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#101614;--bg2:#18201d;--card:#161e1b;--ink:#e8eeeb;--muted:#97a49f;--line:#26312d;
+  --accent:#4fc2b2;--accent-ink:#06201c;--soft:#173430;--sun:#f2c230;
+  --ok:#62d19b;--ok-bg:#15301f;--warn:#f0b35a;--warn-bg:#33270f;--bad:#ff8a80;--bad-bg:#3a1c1b;--on:#0b1512;
+  --shadow:0 1px 0 rgb(255 255 255/.03),0 12px 30px -20px rgb(0 0 0/.8);
+}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--text);font-variant-numeric:tabular-nums}
+.wrap{max-width:820px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 16px 40px}
+h1,h2,h3,.round{font-family:var(--round);letter-spacing:-.01em}
+h2{font-size:17px;margin:0;font-weight:800}
+small,.small{display:block;color:var(--muted);font-size:12.5px;line-height:1.4}
+.muted{color:var(--muted)}
+button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 14px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
+.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.ghost{background:transparent}
+.danger{color:var(--bad)}
+.link{border:none;background:none;color:var(--accent);font-weight:700;padding:4px 6px}
+.icon-btn{width:40px;height:40px;padding:0;border-radius:50%;display:grid;place-items:center;font-size:18px}
+
+/* top */
+.top{display:flex;align-items:center;justify-content:space-between;margin:2px 0 16px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:40px;height:40px;border-radius:13px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:20px;transform:rotate(-6deg)}
+.brand h1{font-size:21px;margin:0;font-weight:800;line-height:1.1}
+
+/* pets */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin:0 -2px 12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{display:flex;align-items:center;gap:8px;border-radius:999px;padding:4px 14px 4px 4px;white-space:nowrap;flex:none;font-weight:600}
+.chip.on{border-color:var(--pc);box-shadow:inset 0 0 0 1px var(--pc);background:color-mix(in srgb,var(--pc) 10%,var(--card))}
+.chip.add{padding:9px 16px;border-style:dashed;color:var(--muted);font-weight:500}
+.av{border-radius:50%;object-fit:cover;display:inline-grid;place-items:center;flex:none;background:color-mix(in srgb,var(--pc,#0e6b63) 18%,var(--card))}
+
+/* passport card */
+.pass{--pc:#0e6b63;position:relative;border-radius:24px;color:#fff;padding:20px 20px 16px;overflow:hidden;
+  background:
+    repeating-linear-gradient(135deg,rgb(255 255 255/.045) 0 2px,transparent 2px 12px),
+    linear-gradient(150deg,color-mix(in srgb,var(--pc) 88%,#fff) 0%,var(--pc) 45%,color-mix(in srgb,var(--pc) 70%,#000) 100%);
+  box-shadow:0 18px 40px -22px color-mix(in srgb,var(--pc) 80%,#000)}
+.pass-h{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;opacity:.85;margin-bottom:14px;padding-right:44px}
+.pass-h span{display:flex;gap:6px;align-items:center}
+.pass .edit{position:absolute;top:12px;right:12px;background:rgb(255 255 255/.18);border:none;color:#fff}
+.pass-b{display:flex;gap:16px;align-items:flex-start}
+.photo{width:96px;height:112px;border-radius:14px;background:rgb(255 255 255/.18);border:2px solid rgb(255 255 255/.55);display:grid;place-items:center;font-size:48px;overflow:hidden;flex:none}
+.photo img{width:100%;height:100%;object-fit:cover}
+.pname{font-size:28px;font-weight:800;margin:0 0 8px;line-height:1.05;word-break:break-word}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
+.fields div{min-width:0}
+.fields small{color:rgb(255 255 255/.72);font-size:11.5px}
+.fields b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stamp{position:absolute;right:16px;bottom:58px;width:92px;height:92px;border-radius:50%;border:3px solid var(--sun);color:var(--sun);display:grid;place-items:center;text-align:center;transform:rotate(-12deg);background:rgb(0 0 0/.12);font-family:var(--round)}
+.stamp b{font-size:30px;line-height:1;display:block}
+.stamp span{font-size:10.5px;font-weight:700;display:block;margin-top:2px}
+.pass-f{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:12px;border-top:1px dashed rgb(255 255 255/.4);font-size:13px}
+.pass-f span{background:rgb(255 255 255/.16);border-radius:999px;padding:3px 10px}
+@media (max-width:520px){.stamp{position:static;transform:rotate(-8deg);width:76px;height:76px;margin:-6px 0 0 auto}.stamp b{font-size:24px}.pass-b{flex-wrap:wrap}.photo{width:84px;height:98px}.pname{font-size:24px}.pass-b .grow{flex:1;min-width:180px}}
+
+/* tabs */
+.tabs{display:flex;gap:4px;background:var(--bg2);border-radius:16px;padding:4px;margin:16px 0;position:sticky;top:8px;z-index:5}
+.tabs button{flex:1;border:none;background:none;padding:10px 4px;border-radius:12px;font-weight:700;color:var(--muted);font-size:14px}
+.tabs button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+
+/* surfaces */
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.lead{margin:-4px 0 12px;color:var(--muted);font-size:13.5px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+@media (min-width:640px){.quick{grid-template-columns:repeat(6,1fr)}}
+.qa{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:16px;font-size:13px;font-weight:700;background:transparent;border:none}
+.qa .e{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;font-size:24px;background:color-mix(in srgb,var(--tc) 16%,var(--card));border:1px solid color-mix(in srgb,var(--tc) 25%,transparent)}
+.qa:hover .e{background:color-mix(in srgb,var(--tc) 26%,var(--card))}
+.qa.main .e{background:var(--accent);border-color:var(--accent)}
+
+.score{display:flex;gap:16px;align-items:center}
+.ring-t{font:800 22px var(--round);fill:var(--ink)}
+.slabel{font:800 18px var(--round);display:block}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--bg2);color:var(--muted)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.bad{background:var(--bad-bg);color:var(--bad)}
+
+.rem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin-top:8px;padding:10px 12px;border-radius:14px}
+.rem .when{font-size:13px;font-weight:800;white-space:nowrap}
+.rem.soon{background:var(--warn-bg);border-color:transparent}.rem.soon .when{color:var(--warn)}
+.rem.over{background:var(--bad-bg);border-color:transparent}.rem.over .when{color:var(--bad)}
+.alerts{border:1px solid color-mix(in srgb,var(--warn) 40%,transparent)}
+.bub{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:19px;flex:none;background:color-mix(in srgb,var(--tc,#888) 16%,var(--card))}
+.grow{flex:1;min-width:0}
+
+.filters{display:flex;gap:6px;overflow-x:auto;margin:0 -2px 6px;padding:2px;scrollbar-width:none}
+.filters button{padding:5px 12px;font-size:13px;border-radius:999px;white-space:nowrap;flex:none}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.list>.item{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:none;border-top:1px solid var(--line);border-radius:0;background:none;padding:12px 2px}
+.list>.item:first-child{border-top:none}
+.item .meta{font-size:12.5px;color:var(--muted);white-space:nowrap;text-align:right}
+.note{font-size:13px;color:var(--muted);margin-top:3px;white-space:pre-wrap}
+.facts{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;color:var(--muted);margin-top:2px}
+.chev{color:var(--muted);font-size:22px;line-height:1;align-self:center}
+
+.chart{width:100%;height:auto;display:block;margin-top:6px}
+.chart .axis{stroke:var(--line)}.chart .line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round}
+.chart .area{fill:color-mix(in srgb,var(--accent) 14%,transparent)}
+.chart circle{fill:var(--card);stroke:var(--accent);stroke-width:2}
+.chart text{fill:var(--muted);font-size:12px;font-family:var(--text)}
+.stat{display:flex;gap:24px}.stat b{font:800 24px var(--round);display:block}
+
+.empty{text-align:center;padding:44px 20px}
+.empty .big{width:96px;height:96px;margin:0 auto 14px;border-radius:32px;background:var(--soft);display:grid;place-items:center;font-size:48px;transform:rotate(-6deg)}
+.empty p{max-width:360px;margin:8px auto 18px}
+.banner{background:var(--bad-bg);color:var(--bad);border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:13.5px}
+.install{display:flex;gap:12px;align-items:flex-start;background:var(--soft);color:var(--ink);border-radius:16px;padding:12px 12px 12px 14px;margin-bottom:12px;font-size:14px}
+.install-ic{font-size:24px;line-height:1}
+.install .link{padding:2px 6px;color:var(--muted)}
+.foot{text-align:center;font-size:12.5px;color:var(--muted);margin-top:28px}
+
+/* dialogs */
+dialog{border:none;border-radius:24px;background:var(--card);color:var(--ink);width:min(560px,calc(100vw - 24px));padding:0;max-height:min(92vh,920px);overflow:hidden;box-shadow:0 30px 80px -20px rgb(0 0 0/.45)}
+dialog::backdrop{background:rgb(10 20 18/.5);backdrop-filter:blur(2px)}
+dialog[open]{animation:pop .18s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(12px)}}
+@media (prefers-reduced-motion:reduce){dialog[open]{animation:none}}
+dialog form{display:flex;flex-direction:column;max-height:inherit}
+.dh{padding:20px 20px 6px}.dh h2{font-size:20px}
+.db{padding:0 20px 12px;overflow:auto}
+.df{padding:12px 20px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
+.sp{flex:1}
+@media (max-width:600px){dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:24px 24px 0 0}}
+label{display:block;font-size:13px;color:var(--muted);margin-top:12px;font-weight:600}
+input,select,textarea{display:block;width:100%;margin-top:5px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:15px var(--text)}
+input.out{border-color:var(--warn);background:var(--warn-bg)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+@media (min-width:540px){.grid4{grid-template-columns:repeat(4,1fr)}}
+.hint{display:block;font-size:11.5px;font-weight:500;margin-top:3px;min-height:1.3em}
+.sec{font:800 15px var(--round);color:var(--ink);margin:22px 0 2px}
+.sec span{font:500 12.5px var(--text);color:var(--muted)}
+
+.ci{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:10px 0;border-top:1px solid var(--line)}
+.ci:first-child{border-top:none}
+.ci .e{font-size:20px;width:26px;text-align:center}
+.ci .txt{flex:1;min-width:150px}.ci .txt b{font-size:14.5px}
+.seg{display:flex;gap:2px;background:var(--bg2);border-radius:999px;padding:3px;margin-left:auto}
+.seg label,.bcs label,.colors label{margin:0;position:relative}
+.seg input,.bcs input,.colors input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.seg span{display:block;padding:6px 11px;border-radius:999px;font-size:12.5px;font-weight:800;color:var(--muted);cursor:pointer}
+.seg input:checked+.ok{background:var(--ok);color:var(--on)}
+.seg input:checked+.warn{background:var(--warn);color:var(--on)}
+.seg input:checked+.bad{background:var(--bad);color:var(--on)}
+.seg input:focus-visible+span,.bcs input:focus-visible+span,.colors input:focus-visible+span{outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent)}
+.bcs{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-top:8px}
+.bcs span{display:grid;place-items:center;height:38px;border-radius:10px;background:var(--bg2);font-weight:800;cursor:pointer;color:var(--muted)}
+.bcs label:nth-child(4) span,.bcs label:nth-child(5) span{box-shadow:inset 0 -3px 0 var(--ok)}
+.bcs input:checked+span{background:var(--accent);color:var(--accent-ink)}
+#bcsLbl{margin-top:6px}
+.colors{display:flex;gap:10px;margin-top:8px}
+.colors span{display:block;width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;box-shadow:0 0 0 1px var(--line)}
+.colors input:checked+span{border-color:var(--card);box-shadow:0 0 0 2px var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,10px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;transition:.2s;pointer-events:none;z-index:10}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo">🐾</div><div><h1>Patili Sağlık</h1><small id="today"></small></div></div>
+    <button class="icon-btn" data-act="settings" aria-label="Yedek ve ayarlar">⚙︎</button>
+  </header>
+  <div id="storeWarn" class="banner" hidden>Bu tarayıcı yerel depolamaya izin vermiyor, kayıtlar sayfa kapanınca kaybolur. Ayarlar menüsünden düzenli yedek alın.</div>
+  <div id="installTip" class="install" hidden>
+    <span class="install-ic">📲</span>
+    <div class="grow"><b>Uygulama olarak ekleyin</b><small style="color:inherit;opacity:.85">Alttaki <b>Paylaş</b> düğmesine (kare ve yukarı ok) dokunun, sonra <b>Ana Ekrana Ekle</b>'yi seçin. Simgeden açtığınızda internetsiz çalışır.</small></div>
+    <button class="link" data-act="hideTip" aria-label="Kapat">✕</button>
+  </div>
+  <nav class="chips" id="pets" aria-label="Hayvanlar"></nav>
+  <section class="card alerts" id="alerts" hidden></section>
+  <main id="main"></main>
+  <p class="foot">🔒 Veriler yalnızca bu cihazda saklanır, internet gerekmez.</p>
+</div>
+
+<!-- Hayvan -->
+<dialog id="petDlg"><form id="petForm">
+  <div class="dh"><h2 id="petTitle">Hayvan ekle</h2></div>
+  <div class="db">
+    <label>Adı<input name="name" required autocomplete="off"></label>
+    <div class="grid2">
+      <label>Tür<select name="species"><option>Kedi</option><option>Köpek</option><option>Kuş</option><option>Tavşan</option><option>Kemirgen</option><option>Diğer</option></select></label>
+      <label>Cinsiyet<select name="sex"><option value="">Belirtilmedi</option><option>Dişi</option><option>Erkek</option></select></label>
+    </div>
+    <div class="grid2">
+      <label>Irk<input name="breed" autocomplete="off"></label>
+      <label>Doğum tarihi<input type="date" name="birth"></label>
+    </div>
+    <div class="grid2">
+      <label>Mikroçip no<input name="chip" inputmode="numeric" autocomplete="off"></label>
+      <label>Kısırlaştırma<select name="neutered"><option value="">Belirtilmedi</option><option>Kısır</option><option>Kısır değil</option></select></label>
+    </div>
+    <label>Kart rengi<div class="colors" id="colors"></div></label>
+    <label>Fotoğraf<input type="file" name="photo" accept="image/*"></label>
+    <label>Önemli notlar (alerji, kronik hastalık, mama)<textarea name="notes" rows="2"></textarea></label>
+  </div>
+  <div class="df"><button type="button" class="ghost danger" id="petDel">Sil</button><span class="sp"></span><button type="button" class="ghost" data-close>Vazgeç</button><button class="primary">Kaydet</button></div>
+</form></dialog>
+
+<!-- Kayıt -->
+<dialog id="recDlg"><form id="recForm">
+  <div class="dh"><h2 id="recTitle">Yeni kayıt</h2></div>
+  <div class="db">
+    <div class="grid2">
+      <label>Tür<select name="type" id="recType"></select></label>
+      <label>Tarih<input type="date" name="date" required></label>
+    </div>
+    <label id="tWrap">Başlık<input name="title" autocomplete="off"></label>
+    <label id="wWrap">Kilo (kg)<input name="weight" inputmode="decimal" placeholder="Örn. 4,2"></label>
+    <label>Sonraki tarih (hatırlatma)<input type="date" name="next"></label>
+    <label>Notlar (doz, klinik, belirtiler)<textarea name="notes" rows="3"></textarea></label>
+    <button type="button" id="recDone" style="width:100%;margin-top:14px">✓ Yapıldı, bugünkü tekrarını kaydet</button>
+  </div>
+  <div class="df"><button type="button" class="ghost danger" id="recDel">Sil</button><span class="sp"></span><button type="button" class="ghost" data-close>Vazgeç</button><button class="primary">Kaydet</button></div>
+</form></dialog>
+
+<!-- Sağlık kontrolü -->
+<dialog id="chkDlg"><form id="chkForm">
+  <div class="dh"><h2 id="chkTitle">Sağlık kontrolü</h2><small id="chkSub">Evde birkaç dakikada yapılan genel muayene</small></div>
+  <div class="db">
+    <label>Tarih<input type="date" name="date" required></label>
+    <div class="sec">Yaşamsal bulgular <span>isteğe bağlı</span></div>
+    <div class="grid4">
+      <label>Ateş (°C)<input name="temp" inputmode="decimal" data-v="temp"><span class="hint" id="h_temp"></span></label>
+      <label>Nabız (/dk)<input name="hr" inputmode="numeric" data-v="hr"><span class="hint" id="h_hr"></span></label>
+      <label>Solunum (/dk)<input name="rr" inputmode="numeric" data-v="rr"><span class="hint" id="h_rr"></span></label>
+      <label>Kilo (kg)<input name="weight" inputmode="decimal"><span class="hint"></span></label>
+    </div>
+    <div class="sec">Vücut kondisyon skoru <span>1 çok zayıf, 9 obez</span></div>
+    <div class="bcs" id="bcs"></div>
+    <small id="bcsLbl"></small>
+    <div class="sec">Fiziksel kontrol <span>her başlığı kontrol edip işaretleyin</span></div>
+    <div id="items"></div>
+    <label>Notlar<textarea name="notes" rows="2" placeholder="Gözlemler, değişiklikler"></textarea></label>
+    <label>Sonraki kontrol<input type="date" name="next"></label>
+  </div>
+  <div class="df"><button type="button" class="ghost danger" id="chkDel">Sil</button><span class="sp"></span><button type="button" class="ghost" data-close>Vazgeç</button><button class="primary">Kaydet</button></div>
+</form></dialog>
+
+<!-- Ayarlar -->
+<dialog id="setDlg"><form method="dialog">
+  <div class="dh"><h2>Yedek ve veriler</h2></div>
+  <div class="db">
+    <p id="storeStatus" style="margin:6px 0 0;font-weight:600"></p>
+    <p class="muted" style="margin-top:6px">Tüm kayıtlar bu cihazdaki tarayıcıda saklanır. Tarayıcı verilerini silerseniz kayıtlar da silinir. Ayda bir yedek almanız önerilir; yedek dosyasını başka bir cihazda açarak verileri taşıyabilirsiniz.</p>
+    <div class="grid2" style="margin-top:12px">
+      <button type="button" class="primary" data-act="export">⬇ Yedek al</button>
+      <button type="button" data-act="import">⬆ Yedekten yükle</button>
+    </div>
+    <input type="file" id="impFile" accept="application/json,.json" hidden>
+    <p class="small" style="margin-top:16px">Sağlık skoru ve normal aralıklar yalnızca bilgi amaçlıdır, veteriner muayenesinin yerini tutmaz.</p>
+  </div>
+  <div class="df"><span class="sp"></span><button class="ghost">Kapat</button></div>
+</form></dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const KEY='patili-saglik-v1';
+const TYPES={
+  asi:{l:'Aşı',i:'💉',c:'#3b6fb6'},parazit:{l:'Parazit',i:'🐛',c:'#c08a1e'},ilac:{l:'İlaç',i:'💊',c:'#8a4fb3'},
+  vet:{l:'Veteriner',i:'🏥',c:'#1f8f6a'},kilo:{l:'Kilo',i:'⚖️',c:'#2a8a9a'},not:{l:'Not / Belirti',i:'📝',c:'#7a7f78'}
+};
+const PH={asi:'Örn. Karma aşı, Kuduz',parazit:'Örn. Dış parazit damlası',ilac:'Örn. Antibiyotik, günde 2x1',vet:'Örn. Genel kontrol',kilo:'',not:'Örn. İştahsızlık, kusma'};
+const EMOJI={Kedi:'🐱','Köpek':'🐶','Kuş':'🐦','Tavşan':'🐰',Kemirgen:'🐹','Diğer':'🐾'};
+const PALETTE=['#0e6b63','#2f5fa8','#b4502c','#7d4aa8','#b8860b','#b8436f','#3d4a52'];
+const CHECK_ITEMS=[
+  ['goz','👁️','Gözler','Berrak, akıntı ve kızarıklık yok'],
+  ['kulak','👂','Kulaklar','Temiz, koku ve kaşıntı yok'],
+  ['agiz','🦷','Ağız ve dişler','Diş eti pembe, diş taşı ve koku yok'],
+  ['burun','👃','Burun','Akıntı ve kabuklanma yok'],
+  ['deri','🪮','Deri ve tüy','Tüy parlak; pire, yara, şişlik yok'],
+  ['pati','🐾','Pati ve tırnaklar','Tırnak boyu uygun, yara yok'],
+  ['istah','🍽️','İştah','Her zamanki gibi yiyor'],
+  ['su','💧','Su tüketimi','Normal miktarda içiyor'],
+  ['diski','🧻','Dışkı','Kıvam ve renk normal'],
+  ['idrar','🚰','İdrar','Sıklık normal, kan ve zorlanma yok'],
+  ['solunum','🫁','Solunum','Öksürük, hapşırık, hırıltı yok'],
+  ['hareket','🦴','Hareket','Topallama ve sertlik yok'],
+  ['enerji','⚡','Enerji ve davranış','Oyuncu, ilgili, ağrı belirtisi yok']
+];
+const LVL={ok:'İyi',warn:'Dikkat',bad:'Sorun'};
+const NORMS={Kedi:{temp:[38.0,39.2],hr:[140,220],rr:[20,30]},'Köpek':{temp:[38.0,39.2],hr:[60,140],rr:[10,35]}};
+const VLBL={temp:'Ateş',hr:'Nabız',rr:'Solunum'};
+const BCS_TXT=['','Çok zayıf: kaburga ve kemikler belirgin','Zayıf: kaburgalar kolayca görülüyor','Hafif zayıf: kaburgalar kolay hissediliyor','İdeal: kaburgalar hissediliyor, bel belirgin','İdeal: dengeli vücut, hafif bel çizgisi','Hafif kilolu: bel zor seçiliyor','Kilolu: kaburgalar zor hissediliyor','Obez: bel yok, yağ birikimi belirgin','Çok obez: belirgin yağ birikimi, karın sarkık'];
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const iso=d=>{d=new Date(d);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
+const today=()=>iso(new Date());
+const addDays=(d,n)=>{const x=new Date(d+'T00:00');x.setDate(x.getDate()+n);return iso(x)};
+const fmt=d=>d?new Date(d+'T00:00').toLocaleDateString('tr-TR',{day:'numeric',month:'short',year:'numeric'}):'';
+const daysTo=d=>Math.round((new Date(d+'T00:00')-new Date(today()+'T00:00'))/864e5);
+const dec=v=>String(v).replace('.',',');
+const kg=w=>dec(+(+w).toFixed(2))+' kg';
+const num=v=>{const x=parseFloat(String(v||'').replace(',','.'));return isFinite(x)&&x>0?x:null};
+const ago=d=>{const n=-daysTo(d);return n<=0?'bugün':n===1?'dün':n<30?n+' gün önce':n<365?Math.round(n/30)+' ay önce':Math.round(n/365)+' yıl önce'};
+
+/* depolama: localStorage + IndexedDB yedeği, yazdıktan sonra geri okuyarak doğrulama */
+const IN_FRAME=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+let memOnly=true;
+try{localStorage.setItem('__t','1');memOnly=localStorage.getItem('__t')!=='1';localStorage.removeItem('__t')}catch(e){memOnly=true}
+try{navigator.storage?.persist?.()}catch(e){}
+function idb(){return new Promise((res,rej)=>{try{const r=indexedDB.open('patili-saglik',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+async function idbPut(v){try{const d=await idb();d.transaction('kv','readwrite').objectStore('kv').put(v,'db')}catch(e){}}
+async function idbGet(){try{const d=await idb();return await new Promise(r=>{const q=d.transaction('kv').objectStore('kv').get('db');q.onsuccess=()=>r(q.result||null);q.onerror=()=>r(null)})}catch(e){return null}}
+function norm(d){d=d||{};return{pets:d.pets||[],records:d.records||[],checks:d.checks||[]}}
+function load(){let d;try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}return norm(d)}
+function showWarn(){const w=$('#storeWarn');
+  if(IN_FRAME){w.innerHTML='<b>Kayıtlar kalıcı olmayacak.</b> Uygulama şu an bir önizleme penceresinde açık ve bu pencere veri saklamaya izin vermiyor. Dosyayı cihazınıza indirip <b>Chrome, Edge, Firefox veya Safari</b> ile açın; orada kayıtlar kalıcı olur.';w.hidden=false}
+  else if(memOnly){w.innerHTML='<b>Kayıtlar kalıcı olmayacak.</b> Bu tarayıcı veri saklamaya izin vermiyor (gizli/özel sekme olabilir). Dosyayı normal bir sekmede açın ya da ⚙︎ menüsünden düzenli yedek alın.';w.hidden=false}
+  else w.hidden=true;
+  const s=$('#storeStatus');if(s)s.innerHTML=w.hidden?'✅ Kayıtlar bu cihazda kalıcı olarak saklanıyor.':'⚠️ Kayıtlar şu an kalıcı olarak saklanamıyor; yukarıdaki uyarıya bakın.'}
+function save(){const s=JSON.stringify(db);let ok=false;
+  try{localStorage.setItem(KEY,s);ok=localStorage.getItem(KEY)===s}catch(e){}
+  idbPut(s);syncNative();
+  if(!ok){memOnly=true;showWarn();toast('⚠️ Kaydedilemedi, uyarıyı okuyun')}}
+showWarn();
+
+let db=load(),cur=db.pets[0]?.id||null,tab='ozet',filter='all',editPet=null,editRec=null,editChk=null;
+const curPet=()=>db.pets.find(x=>x.id===cur);
+const color=p=>p?.color||PALETTE[0];
+
+function age(b){if(!b)return'';const n=new Date(),d=new Date(b+'T00:00');let m=(n.getFullYear()-d.getFullYear())*12+n.getMonth()-d.getMonth();if(n.getDate()<d.getDate())m--;if(m<0)return'';const y=Math.floor(m/12),r=m%12;return((y?y+' yaş ':'')+(r?r+' ay':'')).trim()||'Yeni doğmuş'}
+function avatar(p,s){return p.photo?`<img class="av" src="${p.photo}" width="${s}" height="${s}" alt="">`:`<span class="av" style="--pc:${color(p)};width:${s}px;height:${s}px;font-size:${Math.round(s*.55)}px">${EMOJI[p.species]||'🐾'}</span>`}
+
+/* sağlık kontrolü hesapları */
+function vitalFlags(c,species){const n=NORMS[species],out=[];if(!n)return out;
+  for(const k of['temp','hr','rr']){const v=c[k];if(v==null)continue;const[a,b]=n[k];if(v<a)out.push({l:VLBL[k]+' düşük',lvl:'warn'});else if(v>b)out.push({l:VLBL[k]+' yüksek',lvl:'warn'})}
+  return out}
+function flags(c){const p=db.pets.find(x=>x.id===c.petId);const out=[];
+  for(const[k,,l]of CHECK_ITEMS){const v=c.items?.[k];if(v==='warn'||v==='bad')out.push({l,lvl:v})}
+  out.push(...vitalFlags(c,p?.species));
+  if(c.bcs&&(c.bcs<=3||c.bcs>=7))out.push({l:c.bcs<=3?'Zayıf (VKS '+c.bcs+')':'Kilolu (VKS '+c.bcs+')',lvl:c.bcs<=2||c.bcs>=8?'bad':'warn'});
+  return out.sort((a,b)=>(a.lvl==='bad'?0:1)-(b.lvl==='bad'?0:1))}
+function score(c){const p=db.pets.find(x=>x.id===c.petId);let s=0,n=0;
+  for(const[k]of CHECK_ITEMS){const v=c.items?.[k];if(!v)continue;n++;s+=v==='ok'?1:v==='warn'?.5:0}
+  for(const f of vitalFlags(c,p?.species)){n++;s+=.5}
+  if(c.bcs){n++;s+=c.bcs>=4&&c.bcs<=5?1:c.bcs===3||c.bcs===6?.75:c.bcs===2||c.bcs===7?.5:.2}
+  return n?Math.round(100*s/n):null}
+const baseLabel=s=>s>=90?'Harika görünüyor':s>=75?'İyi durumda':s>=55?'Takipte tutun':'Veterinere danışın';
+function checkLabel(c,s){const fl=flags(c),p=db.pets.find(x=>x.id===c.petId);
+  if(fl.some(f=>f.lvl==='bad'))return'Veterinere danışın';
+  if(vitalFlags(c,p?.species).length)return s>=55?'Yaşamsal bulguları takip edin':'Veterinere danışın';
+  return baseLabel(s)}
+const scoreCol=s=>s>=75?'var(--ok)':s>=55?'var(--warn)':'var(--bad)';
+function ring(s,size=84){const r=34,c=2*Math.PI*r;return`<svg width="${size}" height="${size}" viewBox="0 0 84 84" aria-label="Skor ${s}"><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--bg2)" stroke-width="8"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${scoreCol(s)}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${(c*s/100).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 42 42)"/><text x="42" y="50" text-anchor="middle" class="ring-t">${s}</text></svg>`}
+const pills=(fl,max=99)=>fl.length?fl.slice(0,max).map(f=>`<span class="pill ${f.lvl}">${f.lvl==='bad'?'●':'◐'} ${esc(f.l)}</span>`).join('')+(fl.length>max?`<span class="pill">+${fl.length-max}</span>`:''):'<span class="pill ok">✓ Bulgular normal</span>';
+const checksOf=id=>db.checks.filter(c=>c.petId===id).sort((a,b)=>b.date.localeCompare(a.date));
+function weights(id){return[...db.records.filter(r=>r.petId===id&&r.type==='kilo'&&r.weight>0).map(r=>({date:r.date,weight:r.weight,kind:'rec',id:r.id})),
+  ...db.checks.filter(c=>c.petId===id&&c.weight>0).map(c=>({date:c.date,weight:c.weight,kind:'chk',id:c.id}))].sort((a,b)=>a.date.localeCompare(b.date))}
+
+/* hatırlatmalar */
+function reminders(petId){const out=[],norm=s=>(s||'').trim().toLocaleLowerCase('tr');
+  for(const r of db.records){if(!r.next||(petId&&r.petId!==petId))continue;
+    if(db.records.some(o=>o!==r&&o.petId===r.petId&&o.type===r.type&&norm(o.title)===norm(r.title)&&o.date>r.date))continue;
+    out.push({kind:'rec',id:r.id,petId:r.petId,title:r.title,next:r.next,tc:TYPES[r.type].c,i:TYPES[r.type].i,days:daysTo(r.next)})}
+  for(const c of db.checks){if(!c.next||(petId&&c.petId!==petId))continue;
+    if(db.checks.some(o=>o!==c&&o.petId===c.petId&&o.date>c.date))continue;
+    out.push({kind:'chk',id:c.id,petId:c.petId,title:'Sağlık kontrolü',next:c.next,tc:'#0e6b63',i:'🩺',days:daysTo(c.next)})}
+  return out.sort((a,b)=>a.days-b.days)}
+function remRow(r,showPet){const p=db.pets.find(x=>x.id===r.petId);const cls=r.days<0?'over':r.days<=14?'soon':'';
+  const when=r.days<0?`${-r.days} gün gecikti`:r.days===0?'Bugün':r.days===1?'Yarın':`${r.days} gün kaldı`;
+  return`<button class="rem ${cls}" data-${r.kind}="${r.id}"><span class="bub" style="--tc:${r.tc}">${r.i}</span><span class="grow"><b>${esc(r.title)}</b><small>${showPet?esc(p?.name)+', ':''}${fmt(r.next)}</small></span><span class="when">${when}</span></button>`}
+
+/* kilo grafiği */
+function chart(pts){
+  if(pts.length<2)return'';
+  const W=600,H=180,L=40,R=12,T=14,B=26;
+  const xs=pts.map(p=>new Date(p.date+'T00:00').getTime()),ys=pts.map(p=>p.weight);
+  let x0=Math.min(...xs),x1=Math.max(...xs);if(x0===x1){x0-=864e5;x1+=864e5}
+  let y0=Math.min(...ys),y1=Math.max(...ys);const pad=(y1-y0)*.25||.5;y0=Math.max(0,y0-pad);y1+=pad;
+  const X=t=>L+(t-x0)/(x1-x0)*(W-L-R),Y=v=>T+(1-(v-y0)/(y1-y0))*(H-T-B);
+  const d=pts.map((p,i)=>(i?'L':'M')+X(xs[i]).toFixed(1)+' '+Y(p.weight).toFixed(1)).join(' ');
+  return`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Kilo grafiği">
+  <path class="area" d="${d} L${X(xs[xs.length-1]).toFixed(1)} ${H-B} L${X(xs[0]).toFixed(1)} ${H-B}Z"/>
+  <line class="axis" x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}"/><line class="axis" x1="${L}" y1="${T}" x2="${W-R}" y2="${T}" stroke-dasharray="3 5"/>
+  <text x="${L-6}" y="${T+4}" text-anchor="end">${dec(y1.toFixed(1))}</text><text x="${L-6}" y="${H-B+4}" text-anchor="end">${dec(y0.toFixed(1))}</text>
+  <text x="${L}" y="${H-6}">${fmt(pts[0].date)}</text><text x="${W-R}" y="${H-6}" text-anchor="end">${fmt(pts[pts.length-1].date)}</text>
+  <path class="line" d="${d}"/>${pts.map((p,i)=>`<circle cx="${X(xs[i]).toFixed(1)}" cy="${Y(p.weight).toFixed(1)}" r="4.5"><title>${fmt(p.date)}: ${kg(p.weight)}</title></circle>`).join('')}</svg>`}
+
+/* ekran */
+function render(){
+  $('#pets').innerHTML=db.pets.map(p=>`<button class="chip ${p.id===cur?'on':''}" style="--pc:${color(p)}" data-pet="${p.id}">${avatar(p,32)}<span>${esc(p.name)}</span></button>`).join('')+`<button class="chip add" data-act="addPet">+ Hayvan ekle</button>`;
+  const al=reminders().filter(r=>r.days<=14);
+  $('#alerts').hidden=!al.length||db.pets.length<1;
+  $('#alerts').innerHTML=al.length?`<h2>⏰ Yaklaşan ve gecikenler</h2>`+al.map(r=>remRow(r,true)).join(''):'';
+  const p=curPet();
+  if(!p){$('#main').innerHTML=`<section class="card empty"><div class="big">🐶</div><h2>İlk dostunuzu ekleyin</h2><p class="muted">Aşı, ilaç, veteriner ziyaretleri, kilo ve evde yaptığınız sağlık kontrollerini tek bir yerde tutun.</p><button class="primary" data-act="addPet">+ Hayvan ekle</button></section>`;return}
+  $('#main').innerHTML=passport(p)+`<nav class="tabs" role="tablist">${[['ozet','Özet'],['kontrol','Kontroller'],['gecmis','Geçmiş'],['kilo','Kilo']].map(([k,l])=>`<button role="tab" aria-selected="${tab===k}" class="${tab===k?'on':''}" data-tab="${k}">${l}</button>`).join('')}</nav>`+{ozet:tabOzet,kontrol:tabKontrol,gecmis:tabGecmis,kilo:tabKilo}[tab](p);
+}
+
+function passport(p){
+  const lc=checksOf(p.id)[0],s=lc&&score(lc),w=weights(p.id).pop();
+  const f=[['Tür',p.species],['Irk',p.breed],['Doğum',p.birth?fmt(p.birth):''],['Yaş',age(p.birth)],['Cinsiyet',p.sex],['Son kilo',w?kg(w.weight):'']].filter(x=>x[1]);
+  return`<section class="pass" style="--pc:${color(p)}">
+    <div class="pass-h"><span>🐾 Sağlık karnesi</span>${p.chip?`<span>Çip ${esc(p.chip)}</span>`:''}</div>
+    <button class="icon-btn edit" data-act="editPet" aria-label="Bilgileri düzenle">✎</button>
+    <div class="pass-b"><div class="photo">${p.photo?`<img src="${p.photo}" alt="">`:EMOJI[p.species]||'🐾'}</div>
+      <div class="grow"><h2 class="pname">${esc(p.name)}</h2><div class="fields">${f.map(([k,v])=>`<div><small>${k}</small><b>${esc(v)}</b></div>`).join('')||'<small style="color:#fff">Bilgi eklemek için ✎</small>'}</div></div>
+      ${s!=null?`<div class="stamp" title="Son kontrol: ${fmt(lc.date)}"><div><b>${s}</b><span>sağlık skoru</span></div></div>`:''}
+    </div>
+    ${(p.neutered||p.notes)?`<div class="pass-f">${p.neutered?`<span>${esc(p.neutered)}</span>`:''}${p.notes?`<span>⚠ ${esc(p.notes)}</span>`:''}</div>`:''}
+  </section>`}
+
+function tabOzet(p){
+  const lc=checksOf(p.id)[0],rems=reminders(p.id);
+  const q=[['kontrol','🩺','Kontrol','#0e6b63'],['asi','💉','Aşı'],['parazit','🐛','Parazit'],['ilac','💊','İlaç'],['vet','🏥','Veteriner'],['kilo','⚖️','Kilo']];
+  let h=`<div class="quick">${q.map(([k,i,l,c])=>`<button class="qa ${k==='kontrol'?'main':''}" data-quick="${k}" style="--tc:${c||TYPES[k].c}"><span class="e">${i}</span>${l}</button>`).join('')}</div>`;
+  if(lc){const s=score(lc);
+    h+=`<section class="card"><div class="card-h"><h2>Son sağlık kontrolü</h2><button class="link" data-chk="${lc.id}">Ayrıntılar</button></div>
+      <div class="score">${s!=null?ring(s):''}<div class="grow"><span class="slabel">${s!=null?checkLabel(lc,s):'Kontrol kaydı'}</span><small>${fmt(lc.date)}, ${ago(lc.date)}</small><div class="pills">${pills(flags(lc),5)}</div></div></div></section>`}
+  else h+=`<section class="card"><div class="score"><span class="bub" style="--tc:#0e6b63;width:56px;height:56px;font-size:26px">🩺</span><div class="grow"><span class="slabel">İlk sağlık kontrolünü yapın</span><small>Gözlerden patilere kadar 13 noktayı birkaç dakikada kontrol edin; ateş, nabız ve vücut kondisyonunu da kaydedebilirsiniz.</small></div></div><button class="primary" style="margin-top:14px;width:100%" data-quick="kontrol">Kontrole başla</button></section>`;
+  h+=`<section class="card"><div class="card-h"><h2>Planlananlar</h2></div>${rems.length?rems.map(r=>remRow(r,false)).join(''):'<p class="muted" style="margin:0">Henüz planlanmış bir şey yok. Kayıt eklerken “Sonraki tarih” girerseniz burada görünür.</p>'}</section>`;
+  return h}
+
+function tabKontrol(p){
+  const cs=checksOf(p.id);
+  return`<section class="card"><div class="card-h"><h2>Sağlık kontrolleri</h2><button class="primary" data-quick="kontrol">+ Yeni kontrol</button></div>
+    <p class="lead">Ayda bir yapılan ev kontrolü, değişiklikleri erken fark etmenizi sağlar. Skor yalnızca sizin işaretlemelerinize dayanır.</p>
+    <div class="list">${cs.length?cs.map(c=>{const s=score(c),fl=flags(c);
+      const facts=[c.temp&&`🌡 ${dec(c.temp)} °C`,c.hr&&`❤ ${c.hr}/dk`,c.rr&&`🌬 ${c.rr}/dk`,c.weight&&`⚖ ${kg(c.weight)}`,c.bcs&&`VKS ${c.bcs}/9`].filter(Boolean);
+      return`<button class="item" data-chk="${c.id}">${s!=null?ring(s,52):'<span class="bub">🩺</span>'}<span class="grow"><b>${fmt(c.date)}</b>${facts.length?`<span class="facts">${facts.map(f=>`<span>${f}</span>`).join('')}</span>`:''}<span class="pills">${pills(fl,4)}</span>${c.notes?`<span class="note">${esc(c.notes)}</span>`:''}</span><span class="chev">›</span></button>`}).join(''):'<p class="muted">Henüz kontrol kaydı yok.</p>'}</div></section>`}
+
+function tabGecmis(p){
+  const recs=db.records.filter(r=>r.petId===p.id),counts={};recs.forEach(r=>counts[r.type]=(counts[r.type]||0)+1);
+  if(filter!=='all'&&!counts[filter])filter='all';
+  const list=recs.filter(r=>filter==='all'||r.type===filter).sort((a,b)=>b.date.localeCompare(a.date)||(b.id>a.id?1:-1));
+  return`<section class="card"><div class="card-h"><h2>Sağlık geçmişi</h2><button class="primary" data-act="addRec">+ Kayıt</button></div>
+    ${recs.length?`<div class="filters"><button data-f="all" class="${filter==='all'?'on':''}">Tümü ${recs.length}</button>${Object.entries(TYPES).filter(([k])=>counts[k]).map(([k,t])=>`<button data-f="${k}" class="${filter===k?'on':''}">${t.i} ${t.l} ${counts[k]}</button>`).join('')}</div>`:''}
+    <div class="list">${list.length?list.map(r=>{const t=TYPES[r.type];return`<button class="item" data-rec="${r.id}"><span class="bub" style="--tc:${t.c}">${t.i}</span><span class="grow"><b>${r.type==='kilo'?kg(r.weight):esc(r.title)}</b><small>${t.l}${r.next?', sonraki: '+fmt(r.next):''}</small>${r.notes?`<span class="note">${esc(r.notes)}</span>`:''}</span><span class="meta">${fmt(r.date)}</span></button>`}).join(''):'<p class="muted">Aşı, ilaç, parazit uygulaması ve veteriner ziyaretlerini buraya ekleyin.</p>'}</div></section>`}
+
+function tabKilo(p){
+  const pts=weights(p.id);let h=`<section class="card"><div class="card-h"><h2>Kilo takibi</h2><button class="primary" data-quick="kilo">+ Kilo</button></div>`;
+  if(!pts.length)return h+'<p class="muted" style="margin:0">Henüz kilo kaydı yok. Sağlık kontrolünde girdiğiniz kilolar da burada görünür.</p></section>';
+  const last=pts[pts.length-1],first=pts[0],diff=+(last.weight-first.weight).toFixed(2);
+  h+=`<div class="stat"><div><small>Son ölçüm</small><b>${kg(last.weight)}</b></div>${pts.length>1?`<div><small>İlk kayda göre</small><b style="color:${diff===0?'inherit':diff>0?'var(--warn)':'var(--accent)'}">${diff>0?'+':''}${kg(diff)}</b></div>`:''}</div>${chart(pts)}</section>`;
+  h+=`<section class="card"><div class="list">${pts.slice().reverse().map(w=>`<button class="item" data-${w.kind}="${w.id}"><span class="bub" style="--tc:${w.kind==='chk'?'#0e6b63':TYPES.kilo.c}">${w.kind==='chk'?'🩺':'⚖️'}</span><span class="grow"><b>${kg(w.weight)}</b><small>${w.kind==='chk'?'Sağlık kontrolünde ölçüldü':'Kilo kaydı'}</small></span><span class="meta">${fmt(w.date)}</span></button>`).join('')}</div></section>`;
+  return h}
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1800)}
+function readPhoto(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const img=new Image();img.onload=()=>{const W=240,H=280,c=document.createElement('canvas');c.width=W;c.height=H;const k=Math.max(W/img.width,H/img.height),w=img.width*k,h=img.height*k;c.getContext('2d').drawImage(img,(W-w)/2,(H-h)/2,w,h);res(c.toDataURL('image/jpeg',.82))};img.onerror=rej;img.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
+
+/* hayvan formu */
+$('#colors').innerHTML=PALETTE.map((c,i)=>`<label><input type="radio" name="color" value="${c}" ${i?'':'checked'} aria-label="Renk ${i+1}"><span style="background:${c}"></span></label>`).join('');
+const PET_FIELDS=['name','species','sex','breed','birth','chip','neutered','notes','color'];
+function openPet(id){const f=$('#petForm');f.reset();editPet=id||null;const p=db.pets.find(x=>x.id===id);
+  $('#petTitle').textContent=p?'Bilgileri düzenle':'Hayvan ekle';$('#petDel').hidden=!p;
+  if(p)PET_FIELDS.forEach(k=>{if(p[k])f.elements[k].value=p[k]});
+  else f.elements.color.value=PALETTE[db.pets.length%PALETTE.length];
+  $('#petDlg').showModal()}
+$('#petForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;
+  let p=db.pets.find(x=>x.id===editPet);const isNew=!p;if(isNew)p={id:uid()};
+  PET_FIELDS.forEach(k=>p[k]=(f.elements[k].value||'').trim());
+  const file=f.elements.photo.files[0];if(file){try{p.photo=await readPhoto(file)}catch(err){alert('Fotoğraf okunamadı, başka bir görsel deneyin.')}}
+  if(isNew)db.pets.push(p);cur=p.id;if(isNew)tab='ozet';save();$('#petDlg').close();render();toast(isNew?`${p.name} eklendi`:'Kaydedildi')});
+$('#petDel').onclick=()=>{const p=db.pets.find(x=>x.id===editPet);if(!p||!confirm(`${p.name} ve tüm kayıtları silinsin mi? Bu işlem geri alınamaz.`))return;
+  db.pets=db.pets.filter(x=>x!==p);db.records=db.records.filter(r=>r.petId!==p.id);db.checks=db.checks.filter(c=>c.petId!==p.id);
+  cur=db.pets[0]?.id||null;save();$('#petDlg').close();render();toast('Silindi')};
+
+/* kayıt formu */
+$('#recType').innerHTML=Object.entries(TYPES).map(([k,t])=>`<option value="${k}">${t.i} ${t.l}</option>`).join('');
+function syncType(){const f=$('#recForm').elements,t=f.type.value;$('#wWrap').hidden=t!=='kilo';$('#tWrap').hidden=t==='kilo';f.title.placeholder=PH[t];f.title.required=t!=='kilo'}
+$('#recType').onchange=syncType;
+function openRec(id,preset){const f=$('#recForm');f.reset();const r=db.records.find(x=>x.id===id);editRec=r?r.id:null;
+  if(r&&r.petId!==cur){cur=r.petId;render()}
+  const src=r||preset||{type:tab==='gecmis'&&filter!=='all'?filter:'asi'};const e=f.elements;
+  e.type.value=src.type;e.date.value=src.date||today();e.title.value=src.type==='kilo'?'':(src.title||'');
+  e.weight.value=src.weight!=null?dec(src.weight):'';e.next.value=src.next||'';e.notes.value=src.notes||'';
+  $('#recTitle').textContent=r?'Kaydı düzenle':'Yeni kayıt';$('#recDel').hidden=!r;$('#recDone').hidden=!(r&&r.next&&r.type!=='kilo');
+  syncType();$('#recDlg').showModal()}
+$('#recForm').addEventListener('submit',e=>{e.preventDefault();const f=e.target.elements,type=f.type.value;let w=null;
+  if(type==='kilo'){w=num(f.weight.value);if(!w){alert('Kiloyu sayı olarak girin, örneğin 4,2.');return}}
+  let r=db.records.find(x=>x.id===editRec);if(!r){r={id:uid(),petId:cur};db.records.push(r)}
+  Object.assign(r,{type,date:f.date.value,title:type==='kilo'?'Kilo':f.title.value.trim(),weight:w,next:f.next.value||'',notes:f.notes.value.trim()});
+  save();$('#recDlg').close();render();toast('Kaydedildi')});
+$('#recDel').onclick=()=>{if(!confirm('Bu kayıt silinsin mi?'))return;db.records=db.records.filter(r=>r.id!==editRec);save();$('#recDlg').close();render();toast('Silindi')};
+$('#recDone').onclick=()=>{const r=db.records.find(x=>x.id===editRec);$('#recDlg').close();openRec(null,{type:r.type,title:r.title,date:today()})};
+
+/* sağlık kontrolü formu */
+$('#items').innerHTML=CHECK_ITEMS.map(([k,i,l,d])=>`<div class="ci"><span class="e">${i}</span><div class="txt"><b>${l}</b><small>${d}</small></div><div class="seg" role="radiogroup" aria-label="${l}">${Object.entries(LVL).map(([v,t])=>`<label><input type="radio" name="i_${k}" value="${v}" ${v==='ok'?'checked':''}><span class="${v}">${t}</span></label>`).join('')}</div></div>`).join('');
+$('#bcs').innerHTML=[1,2,3,4,5,6,7,8,9].map(n=>`<label><input type="radio" name="bcs" value="${n}" aria-label="Vücut kondisyon skoru ${n}"><span>${n}</span></label>`).join('');
+const bcsDefault='Kaburgalar hafif bastırınca hissediliyor ve bel belirginse 4 veya 5 idealdir.';
+function syncChk(){const f=$('#chkForm').elements,p=curPet(),n=NORMS[p?.species];
+  for(const k of['temp','hr','rr']){const v=num(f[k].value),h=$('#h_'+k);
+    h.textContent=n?`Normal ${dec(n[k][0])}–${dec(n[k][1])}`:'';
+    f[k].classList.toggle('out',!!(n&&v!=null&&(v<n[k][0]||v>n[k][1])))}
+  const b=+f.bcs.value;$('#bcsLbl').textContent=b?BCS_TXT[b]:bcsDefault}
+$('#chkForm').addEventListener('input',syncChk);
+function openChk(id){const f=$('#chkForm');f.reset();const c=db.checks.find(x=>x.id===id);editChk=c?c.id:null;
+  if(c&&c.petId!==cur){cur=c.petId;render()}
+  const p=curPet(),e=f.elements;
+  e.date.value=c?.date||today();
+  for(const k of['temp','weight'])e[k].value=c?.[k]!=null?dec(c[k]):'';
+  for(const k of['hr','rr'])e[k].value=c?.[k]??'';
+  if(c?.bcs)e.bcs.value=String(c.bcs);
+  for(const[k]of CHECK_ITEMS)e['i_'+k].value=c?.items?.[k]||'ok';
+  e.notes.value=c?.notes||'';e.next.value=c?c.next||'':addDays(today(),30);
+  $('#chkTitle').textContent=(c?'Kontrolü düzenle':'Sağlık kontrolü')+`: ${p.name}`;$('#chkDel').hidden=!c;
+  syncChk();$('#chkDlg').showModal();$('#chkDlg .db').scrollTop=0}
+$('#chkForm').addEventListener('submit',e=>{e.preventDefault();const f=e.target.elements;
+  let c=db.checks.find(x=>x.id===editChk);const isNew=!c;if(isNew){c={id:uid(),petId:cur};db.checks.push(c)}
+  const items={};for(const[k]of CHECK_ITEMS)items[k]=f['i_'+k].value||'ok';
+  Object.assign(c,{date:f.date.value,temp:num(f.temp.value),hr:num(f.hr.value),rr:num(f.rr.value),weight:num(f.weight.value),bcs:+f.bcs.value||null,items,notes:f.notes.value.trim(),next:f.next.value||''});
+  save();$('#chkDlg').close();if(isNew)tab='ozet';render();
+  const s=score(c);toast(s!=null?`Kontrol kaydedildi, skor ${s}`:'Kontrol kaydedildi')});
+$('#chkDel').onclick=()=>{if(!confirm('Bu sağlık kontrolü silinsin mi?'))return;db.checks=db.checks.filter(c=>c.id!==editChk);save();$('#chkDlg').close();render();toast('Silindi')};
+
+/* Android uygulamasına hatırlatmaları bildir (bir gün önce ve günü geldiğinde saat 10:00'da bildirim) */
+function syncNative(){if(!(window.Android&&Android.setReminders))return;const t=today(),out=[];
+  for(const r of reminders()){const p=db.pets.find(x=>x.id===r.petId);if(!p)continue;const title=`🐾 ${p.name}: ${r.title}`;
+    const pre=addDays(r.next,-1);if(pre>=t)out.push({date:pre,title,text:'Yarın yapılması gerekiyor'});
+    if(r.next>=t)out.push({date:r.next,title,text:'Bugün yapılması gerekiyor'})}
+  try{Android.setReminders(JSON.stringify(out))}catch(e){}}
+
+/* yedek */
+function exportData(){const s=JSON.stringify(db,null,1),name=`patili-yedek-${today()}.json`;
+  if(window.Android&&Android.saveFile){Android.saveFile(name,s);return}
+  const b=new Blob([s],{type:'application/json'});const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);toast('Yedek indirildi')}
+$('#impFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;
+  try{const d=JSON.parse(await file.text());if(!Array.isArray(d.pets)||!Array.isArray(d.records))throw 0;
+    if(!confirm(`Yedekte ${d.pets.length} hayvan, ${d.records.length} kayıt ve ${(d.checks||[]).length} kontrol var. Mevcut verilerin yerine yüklensin mi?`))return;
+    db={pets:d.pets,records:d.records,checks:d.checks||[]};cur=db.pets[0]?.id||null;filter='all';tab='ozet';save();$('#setDlg').close();render();toast('Yedek yüklendi')}
+  catch(err){alert('Bu dosya geçerli bir Patili Sağlık yedeği değil.')}};
+
+/* tıklamalar */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-pet],[data-act],[data-rec],[data-chk],[data-close],[data-f],[data-tab],[data-quick]');if(!t)return;const d=t.dataset;
+  if(d.pet){cur=d.pet;filter='all';render()}
+  else if(d.tab){tab=d.tab;render()}
+  else if(d.rec)openRec(d.rec);
+  else if(d.chk)openChk(d.chk);
+  else if(d.quick)d.quick==='kontrol'?openChk():openRec(null,{type:d.quick});
+  else if(d.f){filter=d.f;render()}
+  else if('close' in d)t.closest('dialog').close();
+  else({addPet:()=>openPet(),editPet:()=>openPet(cur),addRec:()=>openRec(),export:exportData,import:()=>$('#impFile').click(),settings:()=>$('#setDlg').showModal(),hideTip:()=>{$('#installTip').hidden=true;try{localStorage.setItem('patili-tip-hidden','1')}catch(e){}}})[d.act]?.();
+});
+
+$('#today').textContent=new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});
+render();showWarn();syncNative();
+/* telefon uygulaması: geri tuşu önce açık pencereyi kapatır, sonra Özet'e döner */
+window.__back=()=>{const d=document.querySelector('dialog[open]');if(d){d.close();return true}if(curPet()&&tab!=='ozet'){tab='ozet';render();return true}return false};
+/* ana ekrana eklenen sürüm internetsiz açılsın */
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+/* iPhone/iPad Safari'de, henüz ana ekrana eklenmemişse ekleme ipucu */
+(()=>{const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const standalone=navigator.standalone===true||matchMedia('(display-mode: standalone)').matches;
+  let hidden=false;try{hidden=localStorage.getItem('patili-tip-hidden')==='1'}catch(e){}
+  $('#installTip').hidden=!(ios&&!standalone&&!hidden&&location.protocol==='https:')})();
+/* localStorage boşaldıysa IndexedDB'deki kopyadan geri yükle */
+(async()=>{if(db.pets.length)return;const s=await idbGet();if(!s)return;
+  try{const d=norm(JSON.parse(s));if(!d.pets.length)return;db=d;cur=db.pets[0].id;try{localStorage.setItem(KEY,s)}catch(e){}render();toast('Kayıtlar geri yüklendi')}catch(e){}})();
+</script>
+</body>
+</html>
